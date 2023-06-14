@@ -1,11 +1,35 @@
 import { ImageGalleryItem } from './ImageGalleryItem';
+import PropTypes from 'prop-types';
 
 export const ImageGallery = ({ images }) => {
   return (
-    <ul>
+    <ul
+      style={{
+        display: 'grid',
+        maxWidth: 'calc(100vw - 48px)',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+        gridGap: '16px',
+        marginTop: '0',
+        marginBottom: '0',
+        padding: '0',
+        listStyle: 'none',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }}
+    >
       {images.map(({ id, webformatURL, tags }) => (
         <ImageGalleryItem key={id} webImage={webformatURL} description={tags} />
       ))}
     </ul>
   );
+};
+
+Event.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webImage: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+    })
+  ),
 };

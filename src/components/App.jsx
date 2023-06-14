@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThreeDots } from 'react-loader-spinner';
 import { Searchbar } from './Searchbar';
 import { ImageGallery } from './ImageGallery';
 import { FetchImages } from '../services/api';
@@ -18,20 +19,22 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const prevString = prevProps.searchString;
-    const nextString = this.props.searchString;
+    const { currentPage, searchString } = this.state;
+
+    const prevString = prevState.searchString;
+    const nextString = searchString;
 
     if (prevString !== nextString) {
       this.setState({ loading: true });
-      FetchImages(this.state.currentPage, nextString)
+      FetchImages(currentPage, nextString)
         .then(images => {
           this.setState(prevState => ({
             searchResult: [...prevState.searchResult, ...images.hits],
           }));
         })
-        // .catch(error => this.setState({ error }))
-        .catch(error => console.log(error))
+        .catch(error => this.setState({ error }))
         .finally(() => this.setState({ loading: false }));
+      console.log(this.state.searchResult);
     }
   }
 
@@ -39,6 +42,18 @@ export class App extends Component {
     return (
       <div>
         <Searchbar onSubmit={this.handleSearchbarSubmit}></Searchbar>
+        {this.state.loading && (
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#4fa94d"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        )}
         <ToastContainer autoClose={3000}></ToastContainer>
         {this.state.searchResult.length > 0 && (
           <ImageGallery images={this.state.searchResult}></ImageGallery>
