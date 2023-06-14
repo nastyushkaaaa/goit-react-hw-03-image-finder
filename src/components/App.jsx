@@ -23,15 +23,14 @@ export class App extends Component {
 
     if (prevString !== nextString) {
       this.setState({ loading: true });
-      FetchImages(this.state.currentPage, this.props.searchString).then(
-        images => {
+      FetchImages(this.state.currentPage, this.props.searchString)
+        .then(images => {
           this.setState(prevState => ({
-            searchResult: [...prevState.searchResult, ...images.hits]
-              .catch(error => this.setState({ error }))
-              .finally(() => this.setState({ loading: false })),
+            searchResult: [...prevState.searchResult, ...images.hits],
           }));
-        }
-      );
+        })
+        .catch(error => this.setState({ error }))
+        .finally(() => this.setState({ loading: false }));
     }
   }
 
