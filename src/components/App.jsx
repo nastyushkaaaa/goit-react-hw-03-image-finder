@@ -23,13 +23,14 @@ export class App extends Component {
 
     if (prevString !== nextString) {
       this.setState({ loading: true });
-      FetchImages(this.state.currentPage, this.props.searchString)
+      FetchImages(this.state.currentPage, nextString)
         .then(images => {
           this.setState(prevState => ({
             searchResult: [...prevState.searchResult, ...images.hits],
           }));
         })
-        .catch(error => this.setState({ error }))
+        // .catch(error => this.setState({ error }))
+        .catch(error => console.log(error))
         .finally(() => this.setState({ loading: false }));
     }
   }
@@ -40,7 +41,7 @@ export class App extends Component {
         <Searchbar onSubmit={this.handleSearchbarSubmit}></Searchbar>
         <ToastContainer autoClose={3000}></ToastContainer>
         {this.state.searchResult.length > 0 && (
-          <ImageGallery searchString={this.state.searchResult}></ImageGallery>
+          <ImageGallery images={this.state.searchResult}></ImageGallery>
         )}
       </div>
     );
