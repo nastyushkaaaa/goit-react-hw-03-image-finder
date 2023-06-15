@@ -12,6 +12,7 @@ export const ImageGallery = ({ images }) => {
         marginTop: '0',
         marginBottom: '0',
         padding: '0',
+        paddingTop: '24px',
         listStyle: 'none',
         marginLeft: 'auto',
         marginRight: 'auto',
