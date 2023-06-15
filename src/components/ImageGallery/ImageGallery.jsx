@@ -1,7 +1,7 @@
 import { ImageGalleryItem } from './ImageGalleryItem';
 import PropTypes from 'prop-types';
 
-export const ImageGallery = ({ images }) => {
+export const ImageGallery = ({ images, openModal }) => {
   return (
     <ul
       style={{
@@ -18,8 +18,13 @@ export const ImageGallery = ({ images }) => {
         marginRight: 'auto',
       }}
     >
-      {images.map(({ id, webformatURL, tags }) => (
-        <ImageGalleryItem key={id} webImage={webformatURL} description={tags} />
+      {images.map(({ id, webformatURL, tags, largeImageURL }) => (
+        <ImageGalleryItem
+          key={id}
+          webImage={webformatURL}
+          description={tags}
+          openModal={() => openModal(largeImageURL)}
+        />
       ))}
     </ul>
   );
@@ -33,4 +38,5 @@ Event.propTypes = {
       tags: PropTypes.string.isRequired,
     })
   ),
+  openModal: PropTypes.func.isRequired,
 };

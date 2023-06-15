@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({ webImage, description }) => {
+export const ImageGalleryItem = ({ webImage, description, openModal }) => {
   return (
     <li
       style={{
@@ -10,6 +10,7 @@ export const ImageGalleryItem = ({ webImage, description }) => {
       <img
         src={webImage}
         alt={description}
+        onClick={openModal}
         style={{
           width: '100%',
           height: '260px',

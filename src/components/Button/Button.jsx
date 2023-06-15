@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const Button = ({ onClick }) => {
   return (
     <div
@@ -38,4 +40,8 @@ export const Button = ({ onClick }) => {
       </button>
     </div>
   );
+};
+
+Event.propTypes = {
+  onClick: PropTypes.func.isRequired,
 };

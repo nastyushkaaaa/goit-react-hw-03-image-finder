@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { toast } from 'react-toastify';
+import { FaSearch } from 'react-icons/fa';
 
 export class Searchbar extends Component {
   state = {
@@ -88,9 +89,8 @@ export class Searchbar extends Component {
                 clipPath: 'inset(50%)',
                 border: '0',
               }}
-            >
-              Search
-            </span>
+            ></span>
+            <FaSearch style={{ width: '28px', height: '28px' }}></FaSearch>
           </button>
           <input
             style={{
