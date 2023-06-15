@@ -25,9 +25,11 @@ export class App extends Component {
     const { currentPage, searchString } = this.state;
 
     const prevString = prevState.searchString;
+    const prevPage = prevState.currentPage;
     const nextString = searchString;
+    const nextPage = currentPage;
 
-    if (prevString !== nextString) {
+    if (prevString !== nextString || prevPage !== currentPage) {
       this.setState({ loading: true, searchResult: [] });
       FetchImages(currentPage, nextString)
         .then(images => {
