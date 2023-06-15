@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ThreeDots } from 'react-loader-spinner';
+import { Loader } from './Loader';
 import { Searchbar } from './Searchbar';
 import { ImageGallery } from './ImageGallery';
 import { FetchImages } from '../services/api';
@@ -13,6 +13,7 @@ export class App extends Component {
     searchResult: [],
     totalSearchResult: 0,
     currentPage: 1,
+    totalPages: 0,
     loading: false,
     error: false,
   };
@@ -22,7 +23,7 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { currentPage, searchString } = this.state;
+    const { currentPage, searchString, searchResult } = this.state;
 
     const prevString = prevState.searchString;
     const prevPage = prevState.currentPage;
@@ -33,8 +34,12 @@ export class App extends Component {
       this.setState({ loading: true, searchResult: [] });
       FetchImages(currentPage, nextString)
         .then(images => {
+          if (images.hits.length === 0) {
+            toast.info('Found no matches with entered data!');
+          }
+
           this.setState(prevState => ({
-            searchResult: [...prevState.searchResult, ...images.hits],
+            searchResult: [...searchResult, ...images.hits],
             totalSearchResult: images.totalHits,
           }));
         })
@@ -57,24 +62,25 @@ export class App extends Component {
         <Searchbar onSubmit={this.handleSearchbarSubmit}></Searchbar>
         {error && <h2>Please, enter correct data!</h2>}
         {loading && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <ThreeDots
-              height="80"
-              width="80"
-              radius="9"
-              color="#4fa94d"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              wrapperClassName=""
-              visible={true}
-            />
-          </div>
+          <Loader></Loader>
+          // <div
+          //   style={{
+          //     display: 'flex',
+          //     alignItems: 'center',
+          //     justifyContent: 'center',
+          //   }}
+          // >
+          //   <ThreeDots
+          //     height="80"
+          //     width="80"
+          //     radius="9"
+          //     color="#4fa94d"
+          //     ariaLabel="three-dots-loading"
+          //     wrapperStyle={{}}
+          //     wrapperClassName=""
+          //     visible={true}
+          //   />
+          // </div>
         )}
         <ToastContainer autoClose={3000}></ToastContainer>
         {searchResult.length > 0 && (
